@@ -207,3 +207,9 @@ variable "custom_user_data_template" {
     error_message = "File `${path.cwd}/templates/${var.custom_user_data_template}` or `${path.module}/templates/${var.custom_user_data_template} not found or not readable"
   }
 }
+
+variable "custom_install_template_params" {
+  type        = map(string)
+  description = "Custom parameters to be used to render the custom template, will be added to the regular ones. The Values here will take preceedence over the values specified in the module."
+  default     = null
+}

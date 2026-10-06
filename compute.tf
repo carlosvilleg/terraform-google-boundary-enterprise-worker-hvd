@@ -21,7 +21,7 @@ data "google_compute_network" "vpc" {
 #-----------------------------------------------------------------------------------
 locals {
   custom_user_data_template = fileexists("${path.cwd}/templates/${var.custom_user_data_template}") ? "${path.cwd}/templates/${var.custom_user_data_template}" : "${path.module}/templates/${var.custom_user_data_template}"
-  custom_data_args = {
+  module_data_args = {
 
     # https://developer.hashicorp.com/boundary/docs/configuration/worker
 
@@ -45,6 +45,7 @@ locals {
     worker_key_ring_name = var.key_ring_name != null ? var.key_ring_name : ""
     worker_crypto_name   = var.key_name != null ? var.key_name : ""
   }
+  custom_data_args = var.custom_install_template_params != null ? merge(local.module_data_args, var.custom_install_template_params) : tomap(local.module_data_args)
 }
 
 data "cloudinit_config" "boundary_cloudinit" {
